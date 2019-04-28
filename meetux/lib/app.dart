@@ -11,7 +11,7 @@ class MeetuxApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Meetux',
       theme: buildTheme(),
-      initialRoute: '/login',
+
       routes: {
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meetux/state_widget.dart';
 
 import 'package:meetux/ui/widgets/google_sign_in_button.dart';
 
@@ -37,7 +38,7 @@ class LoginScreen extends StatelessWidget {
               // Space between "Recipes" and the button:
               SizedBox(height: 50.0),
               GoogleSignInButton(
-                onPressed: () => Navigator.of(context).pushReplacementNamed('/'),
+                onPressed: () => StateWidget.of(context).signInWithGoogle(),
               ),
             ],
           ),
