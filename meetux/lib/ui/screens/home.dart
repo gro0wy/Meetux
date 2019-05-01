@@ -30,8 +30,8 @@ class HomeScreenState extends State<HomeScreen> {
             bottom: TabBar(
               labelColor: Theme.of(context).indicatorColor,
               tabs: [
-                Tab(icon: Icon(Icons.restaurant, size: _iconSize)),
-                Tab(icon: Icon(Icons.local_drink, size: _iconSize)),
+                Tab(icon: Icon(Icons.code, size: _iconSize)),
+                Tab(icon: Icon(Icons.record_voice_over, size: _iconSize)),
                 Tab(icon: Icon(Icons.favorite, size: _iconSize)),
                 Tab(icon: Icon(Icons.settings, size: _iconSize)),
               ],
