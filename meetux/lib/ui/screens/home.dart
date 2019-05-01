@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
@@ -14,8 +15,6 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   StateModel appState;
-  List<Event> events = getEvents();
-  List<String> userFavorites = getFavoritesIDs();
 
   DefaultTabController _buildTabView({Widget body}) {
     const double _iconSize = 20.0;
@@ -68,20 +67,45 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   TabBarView _buildTabsContent() {
-    Padding _buildEvents(List<Event> eventsList) {
+    Padding _buildEvents({EventType eventType, List<String> ids}) {
+      CollectionReference collectionReference =
+      Firestore.instance.collection('events');
+      Stream<QuerySnapshot> stream;
+      // The argument recipeType is set
+      if (eventType != null) {
+        stream = collectionReference
+            .where("type", isEqualTo: eventType.index)
+            .snapshots();
+      } else {
+        // Use snapshots of all recipes if recipeType has not been passed
+        stream = collectionReference.snapshots();
+      }
+
+      // Define query depeneding on passed args
       return Padding(
         // Padding before and after the list view:
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView.builder(
-                itemCount: eventsList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return new EventCard(
-                    event: eventsList[index],
-                    inFavorites: userFavorites.contains(eventsList[index].id),
-                    onFavoriteButtonPressed: _handleFavoritesListChanged,
+              child: new StreamBuilder(
+                stream: stream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) return _buildLoadingIndicator();
+                  return new ListView(
+                    children: snapshot.data.documents
+                    // Check if the argument ids contains document ID if ids has been passed:
+                        .where((d) => ids == null || ids.contains(d.documentID))
+                        .map((document) {
+                      return new EventCard(
+                        event:
+                        Event.fromMap(document.data, document.documentID),
+                        inFavorites:
+                        appState.favorites.contains(document.documentID),
+                        onFavoriteButtonPressed: _handleFavoritesListChanged,
+                      );
+                    }).toList(),
                   );
                 },
               ),
@@ -93,14 +117,9 @@ class HomeScreenState extends State<HomeScreen> {
 
     return TabBarView(
       children: [
-        _buildEvents(
-            events.where((event) => event.type == EventType.workshop).toList()),
-        _buildEvents(events
-            .where((event) => event.type == EventType.seminar)
-            .toList()),
-        _buildEvents(events
-            .where((event) => userFavorites.contains(event.id))
-            .toList()),
+        _buildEvents(eventType: EventType.workshop),
+        _buildEvents(eventType: EventType.seminar),
+        _buildEvents(ids: appState.favorites),
         Center(child: Icon(Icons.settings)),
       ],
     );
@@ -109,11 +128,15 @@ class HomeScreenState extends State<HomeScreen> {
   // Inactive widgets are going to call this method to
   // signalize the parent widget HomeScreen to refresh the list view:
   void _handleFavoritesListChanged(String eventID) {
-    setState(() {
-      if (userFavorites.contains(eventID)) {
-        userFavorites.remove(eventID);
-      } else {
-        userFavorites.add(eventID);
+    updateFavorites(appState.user.uid, eventID).then((result) {
+      // Update the state:
+      if (result == true) {
+        setState(() {
+          if (!appState.favorites.contains(eventID))
+            appState.favorites.add(eventID);
+          else
+            appState.favorites.remove(eventID);
+        });
       }
     });
   }

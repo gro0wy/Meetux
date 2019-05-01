@@ -29,6 +29,7 @@ dependencies:
   google_sign_in: ^3.2.2
   cupertino_icons: ^0.1.2
   duration: ^2.0.0
+  cloud_firestore: ^0.8.2+3
 
 dev_dependencies:
   flutter_test:
