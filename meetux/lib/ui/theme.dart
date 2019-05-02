@@ -13,11 +13,11 @@ ThemeData buildTheme() {
       title: base.title.copyWith(
         fontFamily: 'Merriweather',
         fontSize: 15.0,
-        color: const Color(0xFF807A6B),
+        color: Colors.black,
       ),
       // Used for the recipes' duration:
       caption: base.caption.copyWith(
-        color: const Color(0xFFCCC5AF),
+        color: Colors.black,
       ),
     );
 
@@ -30,14 +30,14 @@ ThemeData buildTheme() {
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),
     // New code:
-    primaryColor: const Color(0xFFFFF8E1),
-    indicatorColor: const Color(0xFF807A6B),
+    primaryColor: Colors.black,
+    indicatorColor: Colors.white,
     scaffoldBackgroundColor: const Color(0xFFF5F5F5),
     accentColor: const Color(0xFFFFF8E1),
     iconTheme: IconThemeData(
-      color: const Color(0xFFCCC5AF),
+      color: Colors.red,
       size: 20.0,
     ),
-    buttonColor: Colors.white,
+    buttonColor: const Color(0xFFF5F5F5),
   );
 }
