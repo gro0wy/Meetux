@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
+import 'package:meetux/ui/screens/detail.dart';
+import 'package:meetux/ui/widgets/event_title.dart';
+import 'package:meetux/ui/widgets/event_image.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -30,37 +33,25 @@ class EventCard extends StatelessWidget {
       );
     }
 
-    Padding _buildTitleSection() {
-      return Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Column(
-          // Default value for crossAxisAlignment is CrossAxisAlignment.center.
-          // We want to align title and description of recipes left:
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              event.name,
-              style: Theme.of(context).textTheme.title,
-            ),
-            // Empty space:
-            SizedBox(height: 10.0),
-            Row(
-              children: [
-                Icon(Icons.timer, size: 20.0),
-                SizedBox(width: 5.0),
-                Text(
-                  event.getDurationString,
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
-          ],
+    Stack(
+      children: <Widget>[
+        EventImage(event.imageURL),
+        Positioned(
+          child: _buildFavoriteButton(),
+          top: 2.0,
+          right: 2.0,
         ),
-      );
-    }
+      ],
+    );
+
 
     return GestureDetector(
-      onTap: () => print("Tapped!"),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => new DetailScreen(event, inFavorites),
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
@@ -86,7 +77,7 @@ class EventCard extends StatelessWidget {
                   ),
                 ],
               ),
-              _buildTitleSection(),
+              EventTitle(event, 15),
             ],
           ),
         ),

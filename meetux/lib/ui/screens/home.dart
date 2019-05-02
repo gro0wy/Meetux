@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
+import 'package:meetux/ui/widgets/settings_button.dart';
 import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_card.dart';
 import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
 import 'package:meetux/ui/screens/login.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -120,6 +122,7 @@ class HomeScreenState extends State<HomeScreen> {
         _buildEvents(eventType: EventType.workshop),
         _buildEvents(eventType: EventType.seminar),
         _buildEvents(ids: appState.favorites),
+        _buildSettings(),
         Center(child: Icon(Icons.settings)),
       ],
     );
@@ -140,6 +143,24 @@ class HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+
+  Column _buildSettings() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SettingsButton(
+          Icons.exit_to_app,
+          "Log out",
+          appState.user.displayName,
+              () async {
+            await StateWidget.of(context).signOutOfGoogle();
+          },
+        ),
+      ],
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
