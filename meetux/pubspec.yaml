@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   duration: ^2.0.0
   cloud_firestore: ^0.8.2+3
-  esys_flutter_share: ^1.0.1
+
 
 
 dev_dependencies:
