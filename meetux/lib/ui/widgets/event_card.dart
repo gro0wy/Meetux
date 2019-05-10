@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
@@ -9,18 +10,20 @@ class EventCard extends StatelessWidget {
   final Event event;
   final bool inFavorites;
   final Function onFavoriteButtonPressed;
+  final Function onShareButtonPressed;
 
   EventCard(
       {@required this.event,
         @required this.inFavorites,
-        @required this.onFavoriteButtonPressed});
+        @required this.onFavoriteButtonPressed,
+        @required this.onShareButtonPressed});
 
   @override
   Widget build(BuildContext context) {
     RawMaterialButton _buildFavoriteButton() {
       return RawMaterialButton(
         constraints: const BoxConstraints(minWidth: 40.0, minHeight: 40.0),
-        onPressed: () => onFavoriteButtonPressed(event.id),
+        onPressed: () async => await onFavoriteButtonPressed(event.imageURL),
         child: Icon(
           // Conditional expression:
           // show "favorite" icon or "favorite border" icon depending on widget.inFavorites:
@@ -30,6 +33,14 @@ class EventCard extends StatelessWidget {
         elevation: 2.0,
         fillColor: Theme.of(context).buttonColor,
         shape: CircleBorder(),
+      );
+    }
+
+    IconButton _buildShareButton() {
+      return IconButton(
+        onPressed: () async => await onShareButtonPressed(event.imageURL),
+        color: Colors.grey,
+        icon: Icon(Icons.share),
       );
     }
 
@@ -43,7 +54,6 @@ class EventCard extends StatelessWidget {
         ),
       ],
     );
-
 
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -75,9 +85,14 @@ class EventCard extends StatelessWidget {
                     top: 2.0,
                     right: 2.0,
                   ),
+                  Positioned(
+                    child: _buildShareButton(),
+                    top: 2.0,
+                    left: 2.0,
+                  )
                 ],
               ),
-              EventTitle(event, 15),
+              EventTitle(event, 15)
             ],
           ),
         ),

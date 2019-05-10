@@ -1,5 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:meetux/model/event.dart';
 import 'package:meetux/ui/widgets/settings_button.dart';
@@ -8,6 +14,8 @@ import 'package:meetux/ui/widgets/event_card.dart';
 import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
 import 'package:meetux/ui/screens/login.dart';
+
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -106,6 +114,7 @@ class HomeScreenState extends State<HomeScreen> {
                         inFavorites:
                         appState.favorites.contains(document.documentID),
                         onFavoriteButtonPressed: _handleFavoritesListChanged,
+                        onShareButtonPressed: onShareButtonPressed,
                       );
                     }).toList(),
                   );
@@ -142,6 +151,17 @@ class HomeScreenState extends State<HomeScreen> {
         });
       }
     });
+  }
+
+  Future onShareButtonPressed(String imageURL) async {
+    try {
+      var request = await HttpClient().getUrl(Uri.parse(imageURL));
+      var response = await request.close();
+      Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+      await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+    } catch (e) {
+      print('error: $e');
+    }
   }
 
   Column _buildSettings() {

@@ -9,3 +9,4 @@ import 'package:meetux/state_widget.dart';
 void main() => runApp(new StateWidget(
   child: new MeetuxApp(),
 ));
+
