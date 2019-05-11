@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:meetux/model/state.dart';
 
-class ProfileScreen extends StatefulWidget{
+class ProfileScreen extends StatelessWidget{
+  
+  final String profilePic;
+  final String userName;
+  final String userMail;
+  
+  ProfileScreen(this.profilePic, this.userName,this.userMail);
+  
  @override
- State<StatefulWidget> createState() => new ProfileScreenState();
-}
-
-class ProfileScreenState extends State<ProfileScreen> {
-  StateModel appState;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+ Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('hello'),
-      )
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Image.network('$profilePic'),
+            Text(this.userName),
+            Text(this.userMail)
+          ],
+        ),
+      ),
     );
   }
 }
+
+
+
+
+
+  

@@ -5,9 +5,10 @@ class ProfileButton extends StatelessWidget {
 
   final String profilePic;
   final String title;
+  final Function onPressed;
 
 
-  ProfileButton(this.profilePic, this.title);
+  ProfileButton(this.profilePic, this.title, this.onPressed);
 
 
   @override
@@ -15,12 +16,7 @@ class ProfileButton extends StatelessWidget {
     return MaterialButton(
       textColor: const Color(0xFF807a6b),
       padding: EdgeInsets.all(20.0),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProfileScreen()),
-        );
-      },
+      onPressed: this.onPressed,
       child: Row(
         children: <Widget>[
           Image.network(
