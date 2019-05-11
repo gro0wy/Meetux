@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:meetux/ui/screens/profile.dart';
 
 class ProfileButton extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String caption;
-  final Function onPressed;
 
-  ProfileButton(this.icon, this.title, this.caption, this.onPressed);
+  final String profilePic;
+  final String title;
+
+
+  ProfileButton(this.profilePic, this.title);
 
 
   @override
@@ -14,17 +15,23 @@ class ProfileButton extends StatelessWidget {
     return MaterialButton(
       textColor: const Color(0xFF807a6b),
       padding: EdgeInsets.all(20.0),
-      onPressed: this.onPressed,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ProfileScreen()),
+        );
+      },
       child: Row(
         children: <Widget>[
-          Icon(this.icon),
+          Image.network(
+            '$profilePic'
+          ),
           SizedBox(width: 20.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(this.title),
               SizedBox(height: 5.0),
-              Text(this.caption, style: Theme.of(context).textTheme.caption),
             ],
           ),
         ],

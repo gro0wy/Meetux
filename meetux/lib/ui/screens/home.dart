@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
+import 'package:meetux/ui/widgets/profile_button.dart';
 import 'package:meetux/ui/widgets/settings_button.dart';
 import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_card.dart';
@@ -157,6 +158,10 @@ class HomeScreenState extends State<HomeScreen> {
             await StateWidget.of(context).signOutOfGoogle();
           },
         ),
+        ProfileButton(
+          appState.user.photoUrl,
+          "Show Profile",
+        )
       ],
     );
   }

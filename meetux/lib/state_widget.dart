@@ -26,7 +26,9 @@ class StateWidget extends StatefulWidget {
   }
 
   @override
-  _StateWidgetState createState() => new _StateWidgetState();
+  _StateWidgetState createState() {
+    return new _StateWidgetState();
+  }
 }
 
 class _StateWidgetState extends State<StateWidget> {

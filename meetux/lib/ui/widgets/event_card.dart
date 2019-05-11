@@ -10,13 +10,14 @@ class EventCard extends StatelessWidget {
   final Event event;
   final bool inFavorites;
   final Function onFavoriteButtonPressed;
-  final Function onShareButtonPressed;
 
-  EventCard(
-      {@required this.event,
-        @required this.inFavorites,
-        @required this.onFavoriteButtonPressed,
-        @required this.onShareButtonPressed});
+
+
+
+  EventCard({@required this.event,
+    @required this.inFavorites,
+    @required this.onFavoriteButtonPressed
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,30 +48,6 @@ class EventCard extends StatelessWidget {
         ),
       ],
     );
-    
-
-    IconButton _buildShareButton() {
-      return IconButton(
-        onPressed: () => onShareButtonPressed(event.id),
-        color: Colors.grey,
-        icon: Icon(Icons.share),
-      );
-    }
-
-    
-       Stack(
-         children: <Widget>[
-        EventImage(event.imageURL),
-        Positioned(
-          child: _buildShareButton(),
-          top: 2.0,
-          left: 2.0,
-        ),
-      ],
-    );
-    
-     
-
 
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -102,9 +79,6 @@ class EventCard extends StatelessWidget {
                     top: 2.0,
                     right: 2.0,
                   ),
-                  Positioned(child: _buildShareButton(),
-                  top: 2.0,
-                  left: 2.0,)
                 ],
               ),
               EventTitle(event, 15),
