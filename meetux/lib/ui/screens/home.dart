@@ -36,6 +36,7 @@ class HomeScreenState extends State<HomeScreen> {
                 Tab(icon: Icon(Icons.record_voice_over, size: _iconSize)),
                 Tab(icon: Icon(Icons.favorite, size: _iconSize)),
                 Tab(icon: Icon(Icons.settings, size: _iconSize)),
+
               ],
             ),
           ),
@@ -150,7 +151,7 @@ class HomeScreenState extends State<HomeScreen> {
       children: <Widget>[
         SettingsButton(
           Icons.exit_to_app,
-          "Log out",
+          "Log out from Meetux",
           appState.user.displayName,
               () async {
             await StateWidget.of(context).signOutOfGoogle();
