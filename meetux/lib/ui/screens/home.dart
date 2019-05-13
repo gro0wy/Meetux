@@ -37,7 +37,6 @@ class HomeScreenState extends State<HomeScreen> {
                 Tab(icon: Icon(Icons.record_voice_over, size: _iconSize)),
                 Tab(icon: Icon(Icons.favorite, size: _iconSize)),
                 Tab(icon: Icon(Icons.settings, size: _iconSize)),
-
               ],
             ),
           ),
@@ -85,7 +84,7 @@ class HomeScreenState extends State<HomeScreen> {
         stream = collectionReference.snapshots();
       }
 
-      // Define query depeneding on passed args
+      // Define query depending on passed args
       return Padding(
         // Padding before and after the list view:
         padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -125,7 +124,7 @@ class HomeScreenState extends State<HomeScreen> {
         _buildEvents(eventType: EventType.seminar),
         _buildEvents(ids: appState.favorites),
         _buildSettings(),
-        Center(child: Icon(Icons.settings)),
+
       ],
     );
   }
@@ -160,7 +159,7 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         ProfileButton(
           appState.user.photoUrl,
-          "Show Profile",
+          "Show my Profile",
             (){
               Navigator.push(
                 context,
@@ -186,12 +185,19 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Name: ' + appState.user.displayName),
+                child: Text('Full Name: ' + appState.user.displayName),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Email: ' + appState.user.email),
               ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Thanks for downloading Meetux!'),
+              ),
+
+
 
             ],
           ),
