@@ -161,42 +161,8 @@ class HomeScreenState extends State<HomeScreen> {
         ProfileButton(
           appState.user.photoUrl,
           "Show Profile",
-            (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => _buildProfileScreen()),
-              );
-            }
         )
       ],
-    );
-  }
-
-  Scaffold _buildProfileScreen() {
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(appState.user.photoUrl),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Name: ' + appState.user.displayName),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Email: ' + appState.user.email),
-              ),
-
-            ],
-          ),
-        ),
-      ),
     );
   }
 
