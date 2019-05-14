@@ -10,7 +10,6 @@ import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
 import 'package:meetux/ui/screens/login.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new HomeScreenState();
@@ -37,7 +36,6 @@ class HomeScreenState extends State<HomeScreen> {
                 Tab(icon: Icon(Icons.record_voice_over, size: _iconSize)),
                 Tab(icon: Icon(Icons.favorite, size: _iconSize)),
                 Tab(icon: Icon(Icons.settings, size: _iconSize)),
-
               ],
             ),
           ),
@@ -73,7 +71,7 @@ class HomeScreenState extends State<HomeScreen> {
   TabBarView _buildTabsContent() {
     Padding _buildEvents({EventType eventType, List<String> ids}) {
       CollectionReference collectionReference =
-      Firestore.instance.collection('events');
+          Firestore.instance.collection('events');
       Stream<QuerySnapshot> stream;
       // The argument recipeType is set
       if (eventType != null) {
@@ -99,14 +97,14 @@ class HomeScreenState extends State<HomeScreen> {
                   if (!snapshot.hasData) return _buildLoadingIndicator();
                   return new ListView(
                     children: snapshot.data.documents
-                    // Check if the argument ids contains document ID if ids has been passed:
+                        // Check if the argument ids contains document ID if ids has been passed:
                         .where((d) => ids == null || ids.contains(d.documentID))
                         .map((document) {
                       return new EventCard(
                         event:
-                        Event.fromMap(document.data, document.documentID),
+                            Event.fromMap(document.data, document.documentID),
                         inFavorites:
-                        appState.favorites.contains(document.documentID),
+                            appState.favorites.contains(document.documentID),
                         onFavoriteButtonPressed: _handleFavoritesListChanged,
                       );
                     }).toList(),
@@ -154,19 +152,57 @@ class HomeScreenState extends State<HomeScreen> {
           Icons.exit_to_app,
           "Log out from Meetux",
           appState.user.displayName,
-              () async {
+          () async {
             await StateWidget.of(context).signOutOfGoogle();
           },
         ),
         ProfileButton(
-          appState.user.photoUrl,
-          "Show Profile",
+            appState.user.photoUrl,
+            "Show my Profile",
+                (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => _buildProfileScreen()),
+              );
+            }
         )
       ],
     );
   }
 
-
+  Scaffold _buildProfileScreen() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile Details'),
+      ),
+      body: new Center(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Container(
+                  width: 150.0,
+                  height: 150.0,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new NetworkImage(
+                              appState.user.photoUrl)
+                      )
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text('Name: ' + appState.user.displayName),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text('E-mail: ' + appState.user.email),
+              )
+            ],
+          ))
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
