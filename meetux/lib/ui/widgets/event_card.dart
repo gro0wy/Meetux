@@ -19,6 +19,8 @@ class EventCard extends StatelessWidget {
     @required this.onFavoriteButtonPressed
   });
 
+  // hello world
+
   @override
   Widget build(BuildContext context) {
     RawMaterialButton _buildFavoriteButton() {
