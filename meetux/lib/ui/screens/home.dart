@@ -10,7 +10,6 @@ import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
 import 'package:meetux/ui/screens/login.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new HomeScreenState();
@@ -72,7 +71,7 @@ class HomeScreenState extends State<HomeScreen> {
   TabBarView _buildTabsContent() {
     Padding _buildEvents({EventType eventType, List<String> ids}) {
       CollectionReference collectionReference =
-      Firestore.instance.collection('events');
+          Firestore.instance.collection('events');
       Stream<QuerySnapshot> stream;
       // The argument recipeType is set
       if (eventType != null) {
@@ -98,14 +97,14 @@ class HomeScreenState extends State<HomeScreen> {
                   if (!snapshot.hasData) return _buildLoadingIndicator();
                   return new ListView(
                     children: snapshot.data.documents
-                    // Check if the argument ids contains document ID if ids has been passed:
+                        // Check if the argument ids contains document ID if ids has been passed:
                         .where((d) => ids == null || ids.contains(d.documentID))
                         .map((document) {
                       return new EventCard(
                         event:
-                        Event.fromMap(document.data, document.documentID),
+                            Event.fromMap(document.data, document.documentID),
                         inFavorites:
-                        appState.favorites.contains(document.documentID),
+                            appState.favorites.contains(document.documentID),
                         onFavoriteButtonPressed: _handleFavoritesListChanged,
                       );
                     }).toList(),
@@ -153,7 +152,7 @@ class HomeScreenState extends State<HomeScreen> {
           Icons.exit_to_app,
           "Log out from Meetux",
           appState.user.displayName,
-              () async {
+          () async {
             await StateWidget.of(context).signOutOfGoogle();
           },
         ),
@@ -173,40 +172,37 @@ class HomeScreenState extends State<HomeScreen> {
 
   Scaffold _buildProfileScreen() {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(appState.user.photoUrl),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Full Name: ' + appState.user.displayName),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Email: ' + appState.user.email),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Thanks for downloading Meetux!'),
-              ),
-
-
-
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        title: Text('Profile Details'),
       ),
+      body: new Center(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Container(
+                  width: 150.0,
+                  height: 150.0,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new NetworkImage(
+                              appState.user.photoUrl)
+                      )
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text('Name: ' + appState.user.displayName),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text('E-mail: ' + appState.user.email),
+              )
+            ],
+          ))
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

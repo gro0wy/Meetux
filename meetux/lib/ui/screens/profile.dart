@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meetux/model/state.dart';
 
 class ProfileScreen extends StatelessWidget{
   
@@ -26,8 +27,3 @@ class ProfileScreen extends StatelessWidget{
   }
 }
 
-
-
-
-
-  
