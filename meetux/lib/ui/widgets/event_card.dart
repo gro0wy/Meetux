@@ -10,38 +10,56 @@ class EventCard extends StatelessWidget {
   final Event event;
   final bool inFavorites;
   final Function onFavoriteButtonPressed;
+  final Function onShareButtonPressed;
 
 
 
 
   EventCard({@required this.event,
     @required this.inFavorites,
-    @required this.onFavoriteButtonPressed
+    @required this.onFavoriteButtonPressed,
+    @required this.onShareButtonPressed
   });
 
   // hello world
 
   @override
   Widget build(BuildContext context) {
-    RawMaterialButton _buildFavoriteButton() {
-      return RawMaterialButton(
-        constraints: const BoxConstraints(minWidth: 40.0, minHeight: 40.0),
-        onPressed: () => onFavoriteButtonPressed(event.id),
-        child: Icon(
-          // Conditional expression:
-          // show "favorite" icon or "favorite border" icon depending on widget.inFavorites:
-          inFavorites == true ? Icons.favorite : Icons.favorite_border,
-          color: Theme.of(context).iconTheme.color,
-        ),
-        elevation: 2.0,
-        fillColor: Theme.of(context).buttonColor,
-        shape: CircleBorder(),
+    Column _buildFavoriteButton() {
+      return Column(
+        children: <Widget>[
+          RawMaterialButton(
+            constraints: const BoxConstraints(minWidth: 40.0, minHeight: 40.0),
+            onPressed: () => onFavoriteButtonPressed(event.id),
+            child: Icon(
+              // Conditional expression:
+              // show "favorite" icon or "favorite border" icon depending on widget.inFavorites:
+              inFavorites == true ? Icons.favorite : Icons.favorite_border,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            elevation: 2.0,
+            fillColor: Theme.of(context).buttonColor,
+            shape: CircleBorder(),
+          ),
+          RawMaterialButton(
+            constraints: const BoxConstraints(minWidth: 40.0, minHeight: 40.0),
+            onPressed: () async => onShareButtonPressed(event.imageURL),
+            child: Icon(
+              Icons.share,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            elevation: 2.0,
+            fillColor: Theme.of(context).buttonColor,
+            shape: CircleBorder(),
+          )
+        ],
+
       );
     }
 
-    
-       Stack(
-         children: <Widget>[
+
+    Stack(
+      children: <Widget>[
         EventImage(event.imageURL),
         Positioned(
           child: _buildFavoriteButton(),

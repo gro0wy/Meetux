@@ -10,7 +10,6 @@ import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
 import 'package:meetux/ui/screens/login.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new HomeScreenState();
@@ -158,9 +157,9 @@ class HomeScreenState extends State<HomeScreen> {
           },
         ),
         ProfileButton(
-          appState.user.photoUrl,
-          "Show my Profile",
-            (){
+            appState.user.photoUrl,
+            "Show my Profile",
+                (){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => _buildProfileScreen()),
@@ -173,36 +172,37 @@ class HomeScreenState extends State<HomeScreen> {
 
   Scaffold _buildProfileScreen() {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(appState.user.photoUrl),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Full Name: ' + appState.user.displayName),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Email: ' + appState.user.email),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Thanks for downloading Meetux!'),
-              ),
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Profile Details'),
         ),
-      ),
+        body: new Center(
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: new NetworkImage(
+                                appState.user.photoUrl)
+                        )
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text('Name: ' + appState.user.displayName),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text('E-mail: ' + appState.user.email),
+                )
+              ],
+            ))
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
