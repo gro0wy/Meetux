@@ -83,7 +83,7 @@ class HomeScreenState extends State<HomeScreen> {
         stream = collectionReference.snapshots();
       }
 
-      // Define query depeneding on passed args
+      // Define query depending on passed args
       return Padding(
         // Padding before and after the list view:
         padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -123,7 +123,7 @@ class HomeScreenState extends State<HomeScreen> {
         _buildEvents(eventType: EventType.seminar),
         _buildEvents(ids: appState.favorites),
         _buildSettings(),
-        Center(child: Icon(Icons.settings)),
+
       ],
     );
   }
@@ -157,9 +157,9 @@ class HomeScreenState extends State<HomeScreen> {
           },
         ),
         ProfileButton(
-            appState.user.photoUrl,
-            "Show my Profile",
-                (){
+          appState.user.photoUrl,
+          "Show my Profile",
+            (){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => _buildProfileScreen()),
