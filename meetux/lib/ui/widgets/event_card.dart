@@ -21,6 +21,8 @@ class EventCard extends StatelessWidget {
     @required this.onShareButtonPressed
   });
 
+  // hello world
+
   @override
   Widget build(BuildContext context) {
     Column _buildFavoriteButton() {
