@@ -7,8 +7,8 @@ ThemeData buildTheme() {
     return base.copyWith(
       headline: base.headline.copyWith(
         fontFamily: 'Merriweather',
-        fontSize: 40.0,
-        color: const Color(0xFF807a6b),
+        fontSize: 45.0,
+        color: Colors.white70,
       ),
       title: base.title.copyWith(
         fontFamily: 'Merriweather',

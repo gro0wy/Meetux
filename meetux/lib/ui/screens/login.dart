@@ -6,9 +6,23 @@ import 'package:meetux/ui/widgets/google_sign_in_button.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+
+
+
     // Private methods within build method help us to
     // organize our code and recognize structure of widget
     // that we're building:
+    /*DecoratedBox(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('logo.png'),
+          // ...
+        ),
+        // ...
+      ),
+    ); */
+
     Text _buildText() {
       return Text(
         'Meetux',
@@ -17,10 +31,11 @@ class LoginScreen extends StatelessWidget {
       );
     }
 
+
     BoxDecoration _buildBackground() {
       return BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/imageBlur.jpg"),
+          image: AssetImage("assets/imageBlur2.jpg"),
           fit: BoxFit.cover,
         ),
       );

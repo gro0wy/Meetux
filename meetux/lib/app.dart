@@ -9,7 +9,8 @@ class MeetuxApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Meetux',
+
+      title: ' ',
       theme: buildTheme(),
 
       routes: {
