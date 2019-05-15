@@ -191,14 +191,10 @@ class HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Email: ' + appState.user.email),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text('Thanks for downloading Meetux!'),
               ),
-
-
-
             ],
           ),
         ),
