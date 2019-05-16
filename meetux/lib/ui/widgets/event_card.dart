@@ -1,9 +1,15 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
 import 'package:meetux/ui/screens/detail.dart';
 import 'package:meetux/ui/widgets/event_title.dart';
 import 'package:meetux/ui/widgets/event_image.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/foundation.dart';
 
 
 class EventCard extends StatelessWidget {
@@ -15,13 +21,13 @@ class EventCard extends StatelessWidget {
 
 
 
+
   EventCard({@required this.event,
     @required this.inFavorites,
     @required this.onFavoriteButtonPressed,
-    @required this.onShareButtonPressed
+    @required this.onShareButtonPressed,
   });
 
-  // hello world
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class EventCard extends StatelessWidget {
           ),
           RawMaterialButton(
             constraints: const BoxConstraints(minWidth: 40.0, minHeight: 40.0),
-            onPressed: () async => onShareButtonPressed(event.imageURL),
+            onPressed: () async => await onShareButtonPressed(event.imageURL),
             child: Icon(
               Icons.share,
               color: Theme.of(context).iconTheme.color,
