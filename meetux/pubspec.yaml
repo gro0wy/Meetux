@@ -52,7 +52,7 @@ flutter:
       fonts:
         - asset: fonts/Merriweather-Regular.ttf
   assets:
-    - assets/imageBlur.jpg
+    - assets/imageBlur2.jpg
     - assets/imageNormal.jpg
     - assets/google_button.jpg
 
