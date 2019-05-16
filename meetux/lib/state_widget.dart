@@ -79,7 +79,7 @@ class _StateWidgetState extends State<StateWidget> {
       googleAccount = await googleSignIn.signIn();
     }
 
-    FirebaseUser firebaseUser = await signIntoFirebase(googleAccount);
+    FirebaseUser firebaseUser = await signIntoFirebase();
     state.user = firebaseUser; //
     List<String> favorites = await getFavorites();
     setState(() {

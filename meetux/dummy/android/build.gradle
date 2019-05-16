@@ -5,9 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
-        classpath 'com.google.gms:google-services:3.2.1'  // Google Services plugin
-
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -29,6 +27,3 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-
-
