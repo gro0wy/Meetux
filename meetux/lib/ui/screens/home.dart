@@ -159,7 +159,7 @@ class HomeScreenState extends State<HomeScreen> {
           '$imageURL'));
       var response = await request.close();
       Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-      await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+      await Share.file('Share', 'amlog.jpg', bytes, 'image/jpg');
     } catch (e) {
       print('error: $e');
     }
