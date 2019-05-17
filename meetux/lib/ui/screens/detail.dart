@@ -6,6 +6,8 @@ import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
 import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_image.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 
 class DetailScreen extends StatefulWidget {
