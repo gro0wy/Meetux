@@ -1,4 +1,11 @@
+
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
@@ -37,7 +44,6 @@ class HomeScreenState extends State<HomeScreen> {
                 Tab(icon: Icon(Icons.record_voice_over, size: _iconSize)),
                 Tab(icon: Icon(Icons.favorite, size: _iconSize)),
                 Tab(icon: Icon(Icons.settings, size: _iconSize)),
-
               ],
             ),
           ),
@@ -85,7 +91,7 @@ class HomeScreenState extends State<HomeScreen> {
         stream = collectionReference.snapshots();
       }
 
-      // Define query depeneding on passed args
+      // Define query depending on passed args
       return Padding(
         // Padding before and after the list view:
         padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -108,6 +114,7 @@ class HomeScreenState extends State<HomeScreen> {
                         inFavorites:
                         appState.favorites.contains(document.documentID),
                         onFavoriteButtonPressed: _handleFavoritesListChanged,
+                        onShareButtonPressed: _handleShareImage,
                       );
                     }).toList(),
                   );
@@ -125,7 +132,7 @@ class HomeScreenState extends State<HomeScreen> {
         _buildEvents(eventType: EventType.seminar),
         _buildEvents(ids: appState.favorites),
         _buildSettings(),
-        Center(child: Icon(Icons.settings)),
+
       ],
     );
   }
@@ -146,6 +153,18 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future _handleShareImage(String imageURL) async {
+    try {
+      var request = await HttpClient().getUrl(Uri.parse(
+          '$imageURL'));
+      var response = await request.close();
+      Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+      await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
   Column _buildSettings() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,9 +178,9 @@ class HomeScreenState extends State<HomeScreen> {
           },
         ),
         ProfileButton(
-          appState.user.photoUrl,
-          "Show Profile",
-            (){
+            appState.user.photoUrl,
+            "Show my Profile",
+                (){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => _buildProfileScreen()),
@@ -174,33 +193,37 @@ class HomeScreenState extends State<HomeScreen> {
 
   Scaffold _buildProfileScreen() {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(appState.user.photoUrl),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Name: ' + appState.user.displayName),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Email: ' + appState.user.email),
-              ),
-
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Profile Details'),
         ),
-      ),
+        body: new Center(
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: new NetworkImage(
+                                appState.user.photoUrl)
+                        )
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text('Name: ' + appState.user.displayName),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text('E-mail: ' + appState.user.email),
+                )
+              ],
+            ))
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

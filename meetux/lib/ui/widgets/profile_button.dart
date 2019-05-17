@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meetux/ui/screens/profile.dart';
 
 class ProfileButton extends StatelessWidget {
-
   final String profilePic;
   final String title;
   final Function onPressed;
 
-
   ProfileButton(this.profilePic, this.title, this.onPressed);
-
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +16,8 @@ class ProfileButton extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Image.network(
-            '$profilePic'
+            '$profilePic',
+            width: 20.0,
           ),
           SizedBox(width: 20.0),
           Column(

@@ -13,23 +13,7 @@ class LoginScreen extends StatelessWidget {
     // Private methods within build method help us to
     // organize our code and recognize structure of widget
     // that we're building:
-    /*DecoratedBox(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('logo.png'),
-          // ...
-        ),
-        // ...
-      ),
-    ); */
 
-    Text _buildText() {
-      return Text(
-        'Meetux',
-        style: Theme.of(context).textTheme.headline,
-        textAlign: TextAlign.center,
-      );
-    }
 
 
     BoxDecoration _buildBackground() {
@@ -49,7 +33,6 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _buildText(),
               // Space between "Recipes" and the button:
               SizedBox(height: 50.0),
               GoogleSignInButton(

@@ -5,11 +5,7 @@ ThemeData buildTheme() {
   // in this method:
   TextTheme _buildTextTheme(TextTheme base) {
     return base.copyWith(
-      headline: base.headline.copyWith(
-        fontFamily: 'Merriweather',
-        fontSize: 45.0,
-        color: Colors.white70,
-      ),
+
       title: base.title.copyWith(
         fontFamily: 'Merriweather',
         fontSize: 15.0,
@@ -25,7 +21,7 @@ ThemeData buildTheme() {
 
   // We want to override a default light blue theme.
   final ThemeData base = ThemeData.light();
-  
+
   // And apply changes on it:
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),

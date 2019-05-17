@@ -2,6 +2,10 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = new GoogleSignIn();
+
+
 Future<GoogleSignInAccount> getSignedInAccount(
     GoogleSignIn googleSignIn) async {
   // Is the user already signed in?
@@ -13,7 +17,22 @@ Future<GoogleSignInAccount> getSignedInAccount(
   return account;
 }
 
-Future<FirebaseUser> signIntoFirebase(
+
+Future<FirebaseUser> signIntoFirebase() async {
+  GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+  GoogleSignInAuthentication googleAuth = await googleSignInAccount.authentication;
+  final AuthCredential credential = GoogleAuthProvider.getCredential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+  final FirebaseUser googleAccount = await _auth.signInWithCredential(credential);
+  print("signed in " + googleAccount.displayName);
+  return googleAccount;
+}
+
+/*
+ Future<FirebaseUser> signIntoFirebase(
+
     GoogleSignInAccount googleSignInAccount) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignInAuthentication googleAuth =
@@ -22,4 +41,4 @@ Future<FirebaseUser> signIntoFirebase(
     accessToken: googleAuth.accessToken,
     idToken: googleAuth.idToken,
   );
-}
+} */

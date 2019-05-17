@@ -5,6 +5,8 @@ class ProfileScreen extends StatelessWidget{
   final String profilePic;
   final String userName;
   final String userMail;
+
+
   
   ProfileScreen(this.profilePic, this.userName,this.userMail);
   
@@ -16,16 +18,10 @@ class ProfileScreen extends StatelessWidget{
           children: <Widget>[
             Image.network('$profilePic'),
             Text(this.userName),
-            Text(this.userMail)
+            Text(this.userMail),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-  
