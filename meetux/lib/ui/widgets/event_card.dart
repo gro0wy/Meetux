@@ -85,6 +85,7 @@ class EventCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
+          color: Colors.grey[event.getColor],
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
