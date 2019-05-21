@@ -31,6 +31,7 @@ dependencies:
   duration: ^2.0.0
   esys_flutter_share: ^1.0.1
   cloud_firestore: ^0.9.0
+  intl: any
 
 dev_dependencies:
   flutter_test:
