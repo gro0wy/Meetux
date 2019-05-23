@@ -6,8 +6,7 @@ class EventTitle extends StatelessWidget {
   final Event event;
   final double padding;
 
-
-  EventTitle(this.event, this.padding,);
+  EventTitle(this.event, this.padding);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class EventTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            event.name + ' ' + event.printExpired(),
+            event.name,
             style: Theme.of(context).textTheme.title,
           ),
           // Empty space:
@@ -32,14 +31,6 @@ class EventTitle extends StatelessWidget {
                 event.getDurationString,
                 style: Theme.of(context).textTheme.caption,
               ),
-              SizedBox(width: 5.0),
-              Icon(Icons.date_range, size: 20.0),
-              SizedBox(width: 5.0),
-
-              Text(
-                event.getFormatted,
-                style: Theme.of(context).textTheme.caption,
-               )
             ],
           ),
         ],
