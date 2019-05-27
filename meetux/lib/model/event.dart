@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:duration/duration.dart';
 
@@ -18,6 +19,7 @@ class Event {
   final DateTime dateTime;
   final String date;
   final DateTime currentTime;
+  final GeoPoint geopoint;
 
 
   Event.fromMap(Map<String, dynamic> data, String id)
@@ -30,7 +32,8 @@ class Event {
   info: new List<String>.from(data['info']),
   imageURL: data['image'],
   dateTime: DateTime.utc(data['year'],data['month'],data['day']),
-  currentTime: DateTime.now()
+  currentTime: DateTime.now(),
+  geopoint: data['geopoint']
   );
 
   formatDate() {
@@ -78,7 +81,8 @@ class Event {
     this.imageURL,
     this.dateTime,
     this.date,
-    this.currentTime
+    this.currentTime,
+    this.geopoint
   });
 }
 
