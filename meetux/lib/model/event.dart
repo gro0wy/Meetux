@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:duration/duration.dart';
 
 enum EventType {
@@ -13,6 +16,11 @@ class Event {
   final List<String> requirements;
   final List<String> info;
   final String imageURL;
+  final DateTime dateTime;
+  final String date;
+  final DateTime currentTime;
+  final GeoPoint geopoint;
+
 
   Event.fromMap(Map<String, dynamic> data, String id)
       : this(
@@ -23,6 +31,9 @@ class Event {
   requirements: new List<String>.from(data['requirements']),
   info: new List<String>.from(data['info']),
   imageURL: data['image'],
+  dateTime: DateTime.utc(data['year'],data['month'],data['day']),
+  currentTime: DateTime.now(),
+  geopoint: data['geopoint']
   );
 
   String get getDurationString => prettyDuration(this.duration);
@@ -35,6 +46,13 @@ class Event {
     this.requirements,
     this.info,
     this.imageURL,
+    this.dateTime,
+    this.date,
+    this.currentTime,
+    this.geopoint
+  });
+}
+
 
   });
 }

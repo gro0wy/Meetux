@@ -4,6 +4,7 @@ import 'package:meetux/model/event.dart';
 import 'package:meetux/ui/widgets/event_title.dart';
 import 'package:meetux/model/state.dart';
 import 'package:meetux/state_widget.dart';
+import 'package:meetux/ui/widgets/google_maps.dart';
 import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_image.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -51,7 +52,9 @@ class _DetailScreenState extends State<DetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
+    appState = StateWidget
+        .of(context)
+        .state;
 
     return Scaffold(
       body: NestedScrollView(
@@ -93,19 +96,50 @@ class _DetailScreenState extends State<DetailScreen>
           controller: _tabController,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          updateFavorites(appState.user.uid, widget.event.id).then((result) {
-            // Toggle "in favorites" if the result was successful.
-            if (result) _toggleInFavorites();
-          });
-        },
-        child: Icon(
-          _inFavorites ? Icons.favorite : Icons.favorite_border,
-          color: Theme.of(context).iconTheme.color,
-        ),
-        elevation: 2.0,
-        backgroundColor: Colors.white,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end  ,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: "btn1",
+            onPressed: () {
+              updateFavorites(appState.user.uid, widget.event.id).then((
+                  result) {
+                // Toggle "in favorites" if the result was successful.
+                if (result) _toggleInFavorites();
+              });
+            },
+            child: Icon(
+              _inFavorites ? Icons.favorite : Icons.favorite_border,
+              color: Theme
+                .of(context)
+                .iconTheme
+                .color,
+            ),
+            elevation: 2.0,
+            backgroundColor: Colors.white,
+          ),
+          SizedBox(
+            width: 5.0,
+          ),
+          FloatingActionButton(
+              heroTag: "btn2",
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => new MapView(widget.event),
+                ),
+              ),
+              child: Icon(
+                Icons.location_on,
+                color: Theme
+                    .of(context)
+                    .iconTheme
+                    .color,
+              ),
+              backgroundColor: Colors.white,
+              elevation: 2.0,
+          )
+        ],
       ),
     );
   }
