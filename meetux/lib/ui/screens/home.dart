@@ -131,7 +131,6 @@ class HomeScreenState extends State<HomeScreen> {
         _buildEvents(eventType: EventType.workshop),
         _buildEvents(eventType: EventType.seminar),
         _buildEvents(ids: appState.favorites),
-
         _buildSettings(),
 
       ],

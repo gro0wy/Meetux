@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
@@ -10,8 +8,6 @@ import 'package:meetux/ui/widgets/google_maps.dart';
 import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_image.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 
 
@@ -31,16 +27,6 @@ class _DetailScreenState extends State<DetailScreen>
   ScrollController _scrollController;
   bool _inFavorites;
   StateModel appState;
-
-  File sampleImage;
-
-  Future getImage() async{
-    var tempImage= await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      sampleImage = tempImage;
-    });
-  }
 
   @override
   void initState() {
@@ -86,7 +72,6 @@ class _DetailScreenState extends State<DetailScreen>
                     EventTitle(widget.event, 25.0),
                   ],
                 ),
-
               ),
               expandedHeight: 340.0,
               pinned: true,
@@ -103,18 +88,14 @@ class _DetailScreenState extends State<DetailScreen>
             )
           ];
         },
-
         body: TabBarView(
           children: <Widget>[
             RequirementsView(widget.event.requirements),
             InfoView(widget.event.info),
           ],
           controller: _tabController,
-
         ),
-
       ),
-
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end  ,
         children: <Widget>[
@@ -137,12 +118,9 @@ class _DetailScreenState extends State<DetailScreen>
             elevation: 2.0,
             backgroundColor: Colors.white,
           ),
-
           SizedBox(
             width: 5.0,
           ),
-
-
           FloatingActionButton(
               heroTag: "btn2",
               onPressed: () => Navigator.push(
@@ -161,43 +139,8 @@ class _DetailScreenState extends State<DetailScreen>
               backgroundColor: Colors.white,
               elevation: 2.0,
           )
-
-        body: new Center(
-    child: sampleImage == null ? Text('Select an image') : enableUpload(),
-    ),
-    FloatingActionButton(
-    onPressed: getImage(),
-    tooltip: 'Add image',
-    child: new Icon(Icons.add),
-    ),+
-
         ],
-
       ),
-
-
-    );
-
-  }
-
-  Widget enableUpload(){
-    return Container(
-      child: Column(
-      children: <Widget>[
-        Image.file(sampleImage, height: 300.0, width: 300.0),
-        RaisedButton(
-          elevation: 7.0,
-          child: Text('Upload'),
-          textColor: Colors.white,
-          color: Colors.blue,
-          onPressed: ()  {
-            final StorageReference firebaseStorageRef=
-            FirebaseStorage.instance.ref().child('myimage.jpg');
-            final StorageUploadTask  task = firebaseStorageRef.putFile(sampleImage);
-    },
-        ),
-        ],
-        ),
     );
   }
 }
