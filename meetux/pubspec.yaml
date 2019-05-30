@@ -37,6 +37,7 @@ dependencies:
   geoflutterfire: ^2.0.2
   firebase_storage:
   image_picker:
+  random_string: ^0.0.2
 
 
 dev_dependencies:

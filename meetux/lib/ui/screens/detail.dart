@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:meetux/model/event.dart';
 import 'package:meetux/ui/widgets/event_title.dart';
 import 'package:meetux/model/state.dart';
@@ -11,6 +10,7 @@ import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:random_string/random_string.dart';
 
 class DetailScreen extends StatefulWidget {
   final Event event;
@@ -36,6 +36,23 @@ class _DetailScreenState extends State<DetailScreen>
     setState(() {
       sampleImage = tempImage;
     });
+
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Alert'),
+            content:
+                const Text('To see your image, please check Image section'),
+            actions: <Widget>[
+              FlatButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+            ],
+          );
+        });
   }
 
   @override
@@ -103,7 +120,8 @@ class _DetailScreenState extends State<DetailScreen>
             InfoView(widget.event.info),
             Center(
               child: sampleImage == null
-                  ? Text('Select an image') : enableUpload(),
+                  ? Text('Select an image')
+                  : enableUpload(),
             )
           ],
           controller: _tabController,
@@ -162,29 +180,43 @@ class _DetailScreenState extends State<DetailScreen>
         ],
       ),
     );
-
-
   }
-  Widget enableUpload(){
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Image.file(sampleImage, height: 300.0, width:300.0),
-          RaisedButton(
-            elevation: 7.0,
-            child: Text('Upload'),
-            textColor: Colors.white,
-            color: Colors.blue,
-            onPressed: () {
-              final StorageReference firebaseStorageRef =
-              FirebaseStorage.instance.ref().child('memories.jpg');
-              final StorageUploadTask task = firebaseStorageRef.putFile(sampleImage);
 
-            },
-          )
-        ],
-      )
-    );
+  Widget enableUpload() {
+    return Container(
+        child: Column(
+      children: <Widget>[
+        Image.file(sampleImage, height: 300.0, width: 300.0),
+        RaisedButton(
+          elevation: 7.0,
+          child: Text('Upload'),
+          textColor: Theme.of(context).iconTheme.color,
+          color: Colors.white,
+          onPressed: () {
+            final StorageReference firebaseStorageRef =
+                FirebaseStorage.instance.ref().child(randomNumeric(8));
+            final StorageUploadTask task =
+                firebaseStorageRef.putFile(sampleImage);
+            return showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Alert'),
+                    content: const Text(
+                        'Your image has been uploaded succesfully'),
+                    actions: <Widget>[
+                      FlatButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          })
+                    ],
+                  );
+                });
+          },
+        )
+      ],
+    ));
   }
 }
 
