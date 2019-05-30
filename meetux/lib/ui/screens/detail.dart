@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:meetux/model/event.dart';
@@ -7,7 +9,8 @@ import 'package:meetux/state_widget.dart';
 import 'package:meetux/ui/widgets/google_maps.dart';
 import 'package:meetux/utils/store.dart';
 import 'package:meetux/ui/widgets/event_image.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DetailScreen extends StatefulWidget {
   final Event event;
@@ -25,11 +28,20 @@ class _DetailScreenState extends State<DetailScreen>
   ScrollController _scrollController;
   bool _inFavorites;
   StateModel appState;
+  File sampleImage;
+
+  Future getImage() async {
+    var tempImage = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      sampleImage = tempImage;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 2);
+    _tabController = TabController(vsync: this, length: 3);
     _scrollController = ScrollController();
     _inFavorites = widget.inFavorites;
   }
@@ -50,11 +62,7 @@ class _DetailScreenState extends State<DetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    appState = StateWidget
-        .of(context)
-        .state;
-
-    //deneneemeeeeee
+    appState = StateWidget.of(context).state;
 
     return Scaffold(
       body: NestedScrollView(
@@ -82,6 +90,7 @@ class _DetailScreenState extends State<DetailScreen>
                 tabs: <Widget>[
                   Tab(text: "Requirements"),
                   Tab(text: "Information"),
+                  Tab(text: "Image"),
                 ],
                 controller: _tabController,
               ),
@@ -92,28 +101,29 @@ class _DetailScreenState extends State<DetailScreen>
           children: <Widget>[
             RequirementsView(widget.event.requirements),
             InfoView(widget.event.info),
+            Center(
+              child: sampleImage == null
+                  ? Text('Select an image') : enableUpload(),
+            )
           ],
           controller: _tabController,
         ),
       ),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end  ,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
             heroTag: "btn1",
             onPressed: () {
-              updateFavorites(appState.user.uid, widget.event.id).then((
-                  result) {
+              updateFavorites(appState.user.uid, widget.event.id)
+                  .then((result) {
                 // Toggle "in favorites" if the result was successful.
                 if (result) _toggleInFavorites();
               });
             },
             child: Icon(
               _inFavorites ? Icons.favorite : Icons.favorite_border,
-              color: Theme
-                .of(context)
-                .iconTheme
-                .color,
+              color: Theme.of(context).iconTheme.color,
             ),
             elevation: 2.0,
             backgroundColor: Colors.white,
@@ -122,25 +132,58 @@ class _DetailScreenState extends State<DetailScreen>
             width: 5.0,
           ),
           FloatingActionButton(
-              heroTag: "btn2",
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => new MapView(widget.event),
+            heroTag: "btn2",
+            onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => new MapView(widget.event),
+                  ),
                 ),
-              ),
-              child: Icon(
-                Icons.location_on,
-                color: Theme
-                    .of(context)
-                    .iconTheme
-                    .color,
-              ),
-              backgroundColor: Colors.white,
-              elevation: 2.0,
+            child: Icon(
+              Icons.location_on,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            backgroundColor: Colors.white,
+            elevation: 2.0,
+          ),
+          SizedBox(
+            width: 5.0,
+          ),
+          FloatingActionButton(
+            heroTag: "btn3",
+            onPressed: getImage,
+            child: Icon(
+              Icons.add_a_photo,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            backgroundColor: Colors.white,
+            elevation: 2.0,
           )
         ],
       ),
+    );
+
+
+  }
+  Widget enableUpload(){
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Image.file(sampleImage, height: 300.0, width:300.0),
+          RaisedButton(
+            elevation: 7.0,
+            child: Text('Upload'),
+            textColor: Colors.white,
+            color: Colors.blue,
+            onPressed: () {
+              final StorageReference firebaseStorageRef =
+              FirebaseStorage.instance.ref().child('memories.jpg');
+              final StorageUploadTask task = firebaseStorageRef.putFile(sampleImage);
+
+            },
+          )
+        ],
+      )
     );
   }
 }
