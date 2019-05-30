@@ -54,6 +54,8 @@ class _DetailScreenState extends State<DetailScreen>
         .of(context)
         .state;
 
+    //deneneemeeeeee
+
     return Scaffold(
       body: NestedScrollView(
         controller: _scrollController,
