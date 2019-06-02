@@ -1,20 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meetux/model/event.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:location/location.dart';
-
+import 'package:random_string/random_string.dart';
 
 class MapView extends StatefulWidget {
   final Event event;
+
   MapView(this.event);
 
   @override
   _MapViewState createState() => _MapViewState();
 }
-
-
 
 class _MapViewState extends State<MapView> {
   GoogleMapController mapController;
@@ -23,6 +20,12 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
+    final CameraPosition _eventPosition = CameraPosition(
+      target: LatLng(
+          widget.event.geopoint.latitude, widget.event.geopoint.longitude),
+      zoom: 15,
+    );
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Event Location'),
@@ -30,39 +33,44 @@ class _MapViewState extends State<MapView> {
         body: Stack(
           children: <Widget>[
             GoogleMap(
-              initialCameraPosition:
-                  CameraPosition(target: LatLng(widget.event.geopoint.latitude, widget.event.geopoint.longitude), zoom: 15),
-              trackCameraPosition: true,
+              initialCameraPosition: _eventPosition,
+              //   trackCameraPosition: true,
               myLocationEnabled: true,
-              onMapCreated: _onMapCreated
+              onMapCreated: _onMapCreated,
+              markers: Set<Marker>.of(markers.values),
             ),
             Positioned(
                 bottom: 50,
                 right: 10,
                 child: FloatingActionButton(
-                    child: Icon(
-                      Icons.pin_drop,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    backgroundColor: Colors.white,
-                    onPressed: () => _addMarker()))
+                  child: Icon(
+                    Icons.pin_drop,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  backgroundColor: Colors.white,
+                  onPressed: () => _addMarker()
+                ))
           ],
         ));
   }
 
-
-
-
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   _addMarker() {
+    var markerIdVal = randomNumeric(5);
+    final MarkerId markerId = MarkerId(markerIdVal);
     String placeName = widget.event.name;
-    var marker = MarkerOptions(
-        position: mapController.cameraPosition.target,
+    var marker = Marker(
+        markerId: markerId,
+        position: LatLng(
+            widget.event.geopoint.latitude, widget.event.geopoint.longitude),
         icon: BitmapDescriptor.defaultMarker,
-        infoWindowText: InfoWindowText('$placeName','Press GoogleMaps icon to see on GoogleMaps')
-    );
+        infoWindow: InfoWindow(title: placeName, snippet: 'Press GoogleMaps Icon to see on GoogleMaps'),
+        draggable: false);
 
-    mapController.addMarker(marker);
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
