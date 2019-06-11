@@ -9,7 +9,7 @@ image option.
 - Connect a device or run Android Emulator
 - Open flutter console, type flutter run
 
--For more information please check => https://flutter.dev/docs/get-started/install
+- For more information please check => https://flutter.dev/docs/get-started/install
 
 # Version
 
